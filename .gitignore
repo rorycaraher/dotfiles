@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# Editors
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# install.sh backups
+*.bak
+*.bak.*
+
+# Local / machine-specific overrides that should never be committed
+*.local
+*.private
+zsh-private/

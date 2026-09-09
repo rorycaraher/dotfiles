@@ -1,0 +1,9 @@
+# loop over zsh config files
+for f in ~/.config/zsh/*.zsh(N); do
+  source "$f"
+done
+
+# machine-specific config
+for f in ~/.config/zsh-private/*.zsh(N); do
+  source "$f"
+done

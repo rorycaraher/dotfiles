@@ -1,0 +1,3 @@
+config-file = ?theme.ghostty
+config-file = ?keybinds.ghostty
+macos-option-as-alt = true

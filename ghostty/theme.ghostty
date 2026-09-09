@@ -1,0 +1,7 @@
+config-file = ?auto/theme.ghostty
+background-opacity = 0.92
+background-blur = true
+window-padding-x = 10
+window-padding-y = 8
+window-padding-balance = true
+split-divider-color = #546E7A
