@@ -1,7 +1,5 @@
-# Shared list of managed dotfiles: "<repo-relative source>::<absolute dest>".
-#
-# Sourced by install.sh, backup.sh and restore.sh so the set of managed paths
-# lives in exactly one place. Consumers prepend "$DOTFILES/" to the source side.
+# The one place managed "source::dest" pairs live; install.sh, backup.sh and
+# restore.sh all read this and prepend "$DOTFILES/" to the source side.
 
 PAIRS=(
   "zsh/zshrc::$HOME/.zshrc"

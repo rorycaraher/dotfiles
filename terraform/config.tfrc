@@ -1,16 +1,9 @@
-# Shared CLI config for terraform and opentofu.
-#
-# Both binaries are pointed here by $TF_CLI_CONFIG_FILE / $TOFU_CLI_CONFIG_FILE
-# (set in zsh/config/20-terraform.zsh).
+# CLI config for terraform + opentofu (both point here via
+# $TF_CLI_CONFIG_FILE / $TOFU_CLI_CONFIG_FILE, set in zsh/config/20-terraform.zsh).
 
-# Download each provider+version once, into this dir, and link it into every
-# project's .terraform/ instead of re-downloading (the aws provider alone is
-# ~700MB). install.sh creates the directory.
-#
-# Gotcha: when you ADD or BUMP a provider, regenerate the lock file with
-# hashes for every platform your CI runs on, or linux CI will reject it:
-#   tofu providers lock -platform=linux_amd64 -platform=darwin_arm64
+# One shared provider download instead of one per project. After adding or
+# bumping a provider: tofu providers lock -platform=linux_amd64 -platform=darwin_arm64
 plugin_cache_dir = "$HOME/.terraform.d/plugin-cache"
 
-# No "a new version is available" checkpoint calls upstream.
+# no upstream version-check calls
 disable_checkpoint = true

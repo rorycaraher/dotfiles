@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Snapshot the current state of every dotfile install.sh manages, so the
-# pre-install machine state can be restored as a set. Writes to
-# ~/.dotfiles-backup/<timestamp>/ with a JSON manifest that restore.sh reads.
+# Snapshot every path install.sh manages to ~/.dotfiles-backup/<stamp>/ plus a
+# manifest restore.sh replays.
 
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
 source "$DOTFILES/lib/ui.sh"

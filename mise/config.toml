@@ -1,30 +1,17 @@
-# Global mise config.
-#
-# Deliberately thin. Global scope means "this binary should resolve to SOME
-# version even when I'm not inside a project" -- not "this is the version I
-# build against". Anything version-sensitive to a codebase belongs in that
-# repo's own mise.toml / .terraform-version, never here.
-#
-# Per-host additions go in ~/.config/mise/conf.d/*.toml, which mise reads
-# automatically and which this repo does NOT manage -- it's the mise
-# equivalent of ~/.config/zsh-private/*.zsh.
+# Global mise config, kept thin. Version pins belong in a repo's own
+# mise.toml. Per-host tools go in ~/.config/mise/conf.d/*.toml (unmanaged).
 
 [tools]
-# OpenTofu is the default IaC tool. Minor-pinned: patch releases roll in,
-# minor bumps (which can move the state format) are a deliberate edit.
+# default IaC tool; minor-pinned so a state-format bump is a deliberate edit
 opentofu = "1.12"
 
 [settings]
-# Install a missing tool on cd / `mise x` instead of erroring. `mise trust`
-# still gates every unknown config file first, so this isn't a blank cheque.
+# auto-install missing tools; mise trust still gates unknown configs
 auto_install = true
 
-# Warn (don't silently skip) when a project needs a tool we don't have.
+# warn when a project needs a tool that isn't installed
 status = { missing_tools = "always" }
 
-# Honour idiomatic version files: `.terraform-version` (the tfenv convention)
-# and `.opentofu-version`. Silent no-op until such a file exists. `terraform`
-# is listed so a repo pinned that way resolves too, even though mise isn't
-# managing terraform here -- inert until it is.
+# honour .terraform-version / .opentofu-version files (no-op until one exists)
 idiomatic_version_file = true
 idiomatic_version_file_enable_tools = ["terraform", "opentofu"]

@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Restore a snapshot taken by backup.sh. Manifest-driven and all-or-nothing:
-# every path in the manifest is put back to exactly what it was, including
-# paths that were absent (their symlink, if any, is removed).
+# Replay a backup.sh snapshot: every managed path back to its recorded state,
+# all-or-nothing (a path that was absent has its symlink removed).
 #
 # Usage: restore.sh [--dry-run] [--force] <timestamp|latest>
 

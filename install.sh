@@ -40,8 +40,7 @@ link() {
     return
   fi
 
-  # A real file or directory: back it up with a timestamp so repeated runs
-  # never clobber an earlier backup.
+  # A real file/dir: timestamped .bak so repeat runs don't clobber an earlier one.
   if [ -e "$dest" ]; then
     local backup="$dest.bak.$(date +%Y%m%d%H%M%S)"
     tag "$C_YELLOW" BACKUP "$dest ${C_DIM}->${C_RESET} $backup"
@@ -53,12 +52,8 @@ link() {
   run ln -s "$src" "$dest"
 }
 
-# When real (non-symlink) config files are present, link() will move each one
-# to <path>.bak.<timestamp>. Those per-file backups work but are scattered and
-# have no manifest, so undoing the whole install later is fiddly. backup.sh
-# writes a single snapshot that restore.sh can replay in one command. If such a
-# snapshot already exists, just proceed; otherwise, on a real run, stop and ask
-# so one can be taken first. --yes and --dry-run skip the prompt.
+# link() backs up real files one by one; if any are present, nudge to run
+# backup.sh first for a single restorable snapshot. --yes / -n skip the prompt.
 needs_backup=0
 for pair in "${PAIRS[@]}"; do
   dest="${pair##*::}"
@@ -95,10 +90,8 @@ for pair in "${PAIRS[@]}"; do
   link "${pair%%::*}" "${pair##*::}"
 done
 
-# ~/.claude/settings.json can't be a symlink: Claude Code writes to it itself
-# (/config changes, the host-specific autoMode block). Instead, merge the
-# repo's portable keys over whatever is already there -- repo wins on shared
-# keys, host-only keys are left untouched.
+# Not a symlink: Claude Code writes settings.json itself. Merge the repo's
+# portable keys over the live file, keeping host-only keys like autoMode.
 merge_claude_settings() {
   local src="$DOTFILES/claude/settings.json"
   local dest="$HOME/.claude/settings.json"
@@ -145,9 +138,7 @@ merge_claude_settings
 step "Creating runtime directories..."
 run mkdir -p "$HOME/.terraform.d/plugin-cache" "$HOME/.tflint.d/plugins"
 
-# mise reads the global config we just linked; realise its pinned tools so a
-# fresh shell doesn't warn about missing versions. Non-fatal -- a failed
-# download shouldn't abort the whole install.
+# Realise the pinned tools from the config we just linked. Non-fatal.
 if command -v mise >/dev/null 2>&1; then
   step "Installing mise tools..."
   run mise install || warn "mise install failed -- run 'mise install' by hand later."
