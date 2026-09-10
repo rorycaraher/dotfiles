@@ -95,6 +95,64 @@ for pair in "${PAIRS[@]}"; do
   link "${pair%%::*}" "${pair##*::}"
 done
 
+# ~/.claude/settings.json can't be a symlink: Claude Code writes to it itself
+# (/config changes, the host-specific autoMode block). Instead, merge the
+# repo's portable keys over whatever is already there -- repo wins on shared
+# keys, host-only keys are left untouched.
+merge_claude_settings() {
+  local src="$DOTFILES/claude/settings.json"
+  local dest="$HOME/.claude/settings.json"
+
+  if [ -L "$dest" ]; then
+    warn "$dest is a symlink -- skipping. settings.json must be a real file Claude can write."
+    return
+  fi
+
+  if [ ! -e "$dest" ]; then
+    tag "$C_CYAN" COPY "$dest ${C_DIM}(new)${C_RESET}"
+    run mkdir -p "$(dirname "$dest")"
+    run cp "$src" "$dest"
+    return
+  fi
+
+  # jq is assumed present, same as backup.sh / restore.sh (macOS ships it).
+
+  # Applying repo keys over the live file changes nothing => already in sync.
+  if jq -e --slurpfile r "$src" '. as $live | ($live * $r[0]) == $live' "$dest" >/dev/null 2>&1; then
+    tag "$C_GREEN" OK "$dest ${C_DIM}(settings in sync)${C_RESET}"
+    return
+  fi
+
+  local backup="$dest.bak.$(date +%Y%m%d%H%M%S)"
+  tag "$C_YELLOW" MERGE "$dest ${C_DIM}(repo keys over local; backup ->${C_RESET} $backup${C_DIM})${C_RESET}"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    dry "jq -s '.[0] * .[1]' $dest $src > $dest"
+    return
+  fi
+  cp "$dest" "$backup"
+  local tmp; tmp="$(mktemp)"
+  if jq -s '.[0] * .[1]' "$backup" "$src" > "$tmp" && jq -e . "$tmp" >/dev/null 2>&1; then
+    mv "$tmp" "$dest"
+  else
+    rm -f "$tmp"
+    err "settings.json merge failed -- left $dest untouched (backup at $backup)."
+  fi
+}
+
+step "Merging ~/.claude/settings.json..."
+merge_claude_settings
+
+step "Creating runtime directories..."
+run mkdir -p "$HOME/.terraform.d/plugin-cache" "$HOME/.tflint.d/plugins"
+
+# mise reads the global config we just linked; realise its pinned tools so a
+# fresh shell doesn't warn about missing versions. Non-fatal -- a failed
+# download shouldn't abort the whole install.
+if command -v mise >/dev/null 2>&1; then
+  step "Installing mise tools..."
+  run mise install || warn "mise install failed -- run 'mise install' by hand later."
+fi
+
 step "Done."
 if [ "$DRY_RUN" -eq 0 ]; then
   printf '    Start a new shell, or run: %sexec zsh%s\n' "$C_BOLD" "$C_RESET"

@@ -7,7 +7,7 @@ Overengineered mac/ghostty/zsh config
 ```sh
 git clone <repo> ~/dotfiles && cd ~/dotfiles
 ./bootstrap.sh     # Homebrew and Brewfile
-./install.sh       # symlink the configs into place
+./install.sh       # symlink configs, then realise mise tools
 exec zsh
 ```
 
@@ -91,6 +91,52 @@ Get anywhere with less keystrokes:
 
 `direnv` and `mise` included by default.
 
+**`mise`** owns language runtimes and version-sensitive tools, pinned
+per-repo in a project's `mise.toml`. It does *not* handle env vars (that's
+`direnv`), Homebrew casks, or system libraries. The global config
+(`mise/config.toml`) is deliberately thin — a fallback `opentofu` and a few
+settings. Per-host tool additions go in `~/.config/mise/conf.d/*.toml`,
+which mise reads automatically and this repo does not manage — the mise
+equivalent of `zsh-private`.
+
+## Terraform / OpenTofu
+
+OpenTofu is the default. `tf` is a wrapper: it runs `tofu`, or `terraform`
+where a host exports `TF_BINARY=terraform` — for a codebase not yet migrated,
+or a provider/backend OpenTofu doesn't support (see the override note below).
+The oh-my-zsh alias set (`tfp`, `tfa`, `tfi`, …) routes through it. `tofu`
+comes from mise; `terraform` from wherever that host gets it (Homebrew,
+`tfenv`, mise).
+
+Both binaries share one provider plugin cache
+(`~/.terraform.d/plugin-cache`, via `terraform/config.tfrc`) so a given
+provider+version downloads once, not once per project. **When you add or bump
+a provider**, regenerate the lock file for every platform your CI runs on or
+linux CI will reject it:
+
+```sh
+tofu providers lock -platform=linux_amd64 -platform=darwin_arm64
+```
+
+`.tf` files are formatted on save in Zed (via `terraform-ls`).
+
+## Claude / agents
+
+`claude/AGENTS.md` holds the global agent instructions — kept to two rules
+(git and terraform safety). `claude/CLAUDE.md` is a one-line `@AGENTS.md`
+shim so Claude Code picks it up; the same pattern (`AGENTS.md` + a `CLAUDE.md`
+shim) works in project repos, and `templates/AGENTS.md` is a skeleton to copy
+in.
+
+`~/.claude/settings.json` is **merged**, not symlinked — Claude Code writes
+to that file itself. `install.sh` layers the repo's portable keys over the
+live file (backing it up first). So **change those settings in
+`claude/settings.json` and re-run `./install.sh`**, not via `/config` — a
+`/config` change to a managed key gets reverted on the next install.
+
+No global MCP servers, by design — they cost context every session. Add them
+at project scope when a project needs one.
+
 ## Caps Lock
 
 Tap it for `Esc`, hold it for `Ctrl`;
@@ -104,11 +150,27 @@ Tap it for `Esc`, hold it for `Ctrl`;
 |------|--|
 | `Brewfile` | CLI tools and apps |
 | `zsh/config/` | shell config, one topic per numbered file |
+| `mise/` | global `mise` config (thin) |
+| `terraform/` | shared CLI config + provider plugin cache |
+| `claude/` | global agent instructions + merged `settings.json` |
+| `templates/` | skeletons to copy into project repos |
 | `ghostty/` | terminal ([Ghostty](https://ghostty.org)) |
 | `ohmyposh/` | prompt theme |
 | `karabiner/` | the Caps Lock remap |
+| `zed/` | editor config |
 | `install.sh` / `backup.sh` / `restore.sh` | link, snapshot, roll back |
 
-Anything machine-specific or private — work aliases, tokens, per-host paths —
+Anything host-specific or private — extra aliases, tokens, per-host paths —
 goes in `~/.config/zsh-private/*.zsh`. It's sourced if present and never
-committed.
+committed. Host-specific `mise` tools go in `~/.config/mise/conf.d/*.toml` the
+same way.
+
+### A host that needs Terraform
+
+```sh
+echo 'export TF_BINARY=terraform' > ~/.config/zsh-private/terraform.zsh
+```
+
+Install `terraform` however that host standardises — Homebrew, or `tfenv` if
+a `.terraform-version` file drives the version. If a version manager owns
+`terraform`, keep it out of `mise` so there aren't two shims on `PATH`.

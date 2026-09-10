@@ -1,4 +1,5 @@
 tap "jandedobbeleer/oh-my-posh"
+tap "terraform-linters/tap"
 
 # CLI tools
 brew "bat"
@@ -7,6 +8,8 @@ brew "eza"
 brew "fzf"
 brew "mise"
 brew "neovim"
+brew "pre-commit"
+brew "terraform-ls"
 brew "tldr"
 brew "wget"
 brew "zoxide"
@@ -15,6 +18,7 @@ brew "zsh-syntax-highlighting"
 brew "jandedobbeleer/oh-my-posh/oh-my-posh"
 
 # Apps
+cask "tflint"
 cask "bluesnooze"
 cask "karabiner-elements"
 cask "rectangle"

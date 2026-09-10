@@ -6,6 +6,10 @@
 PAIRS=(
   "zsh/zshrc::$HOME/.zshrc"
   "zsh/config::$HOME/.config/zsh"
+  "mise/config.toml::$HOME/.config/mise/config.toml"
+  "terraform/config.tfrc::$HOME/.config/terraform/config.tfrc"
+  "claude/CLAUDE.md::$HOME/.claude/CLAUDE.md"
+  "claude/AGENTS.md::$HOME/.claude/AGENTS.md"
   "ghostty/config.ghostty::$HOME/.config/ghostty/config.ghostty"
   "ghostty/theme.ghostty::$HOME/.config/ghostty/theme.ghostty"
   "ghostty/keybinds.ghostty::$HOME/.config/ghostty/keybinds.ghostty"
