@@ -5,7 +5,7 @@ shell config the dumb way
 ## Setup
 
 ```sh
-git clone <repo> ~/dotfiles && cd ~/dotfiles
+git clone https://github.com/rorycaraher/dotfiles ~/dotfiles && cd ~/dotfiles
 ./bootstrap.sh     # Homebrew and Brewfile
 ./install.sh       # symlink configs, then realise mise tools
 exec zsh
