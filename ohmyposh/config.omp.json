@@ -23,7 +23,7 @@
           "background": "#546E7A",
           "foreground": "#26C6DA",
           "options": {
-            "style": "full"
+            "style": "folder"
           },
           "style": "plain",
           "template": " {{ .Path }} ",

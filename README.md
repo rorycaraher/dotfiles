@@ -1,6 +1,6 @@
 # dotfiles
 
-Overengineered mac/ghostty/zsh config
+shell config the dumb way
 
 ## Setup
 
