@@ -1,4 +1,4 @@
-config-file = ?auto/theme.ghostty
+theme = Rebecca
 background-opacity = 0.92
 background-blur = true
 window-padding-x = 10
