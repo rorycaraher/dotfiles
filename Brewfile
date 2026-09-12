@@ -4,6 +4,7 @@ tap "terraform-linters/tap"
 # CLI tools
 brew "bat"
 brew "direnv"
+brew "e1s"
 brew "eza"
 brew "fzf"
 brew "mise"
