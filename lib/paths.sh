@@ -15,4 +15,5 @@ PAIRS=(
   "karabiner/capslock-ijkl.json::$HOME/.config/karabiner/assets/complex_modifications/capslock-ijkl.json"
   "zed/settings.json::$HOME/.config/zed/settings.json"
   "zed/keymap.json::$HOME/.config/zed/keymap.json"
+  "nvim::$HOME/.config/nvim"
 )
