@@ -19,4 +19,3 @@ opt.signcolumn = "yes"
 opt.undofile = true
 opt.termguicolors = true
 opt.mouse = "a"
-opt.clipboard = "unnamedplus"
