@@ -9,3 +9,6 @@ bindkey "^[[A" up-line-or-beginning-search
 bindkey "^[[B" down-line-or-beginning-search
 bindkey "^[OA" up-line-or-beginning-search
 bindkey "^[OB" down-line-or-beginning-search
+
+# forward-delete; zsh's emacs keymap leaves it unbound, so the terminal's escape sequence prints as ~
+bindkey "^[[3~" delete-char
