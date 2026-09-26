@@ -6,5 +6,10 @@ return {
   keys = {
     { "-", "<cmd>Oil<CR>", desc = "Open parent directory" },
   },
-  opts = {},
+  opts = {
+    view_options = {
+      show_hidden = true,
+      is_always_hidden = function(name) return name == ".." or name == ".git" end,
+    },
+  },
 }

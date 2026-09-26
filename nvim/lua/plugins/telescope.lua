@@ -8,4 +8,13 @@ return {
     { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Buffers" },
     { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Help tags" },
   },
+  opts = {
+    defaults = {
+      file_ignore_patterns = { "^%.git/" },
+    },
+    pickers = {
+      find_files = { hidden = true },
+      live_grep = { additional_args = { "--hidden" } },
+    },
+  },
 }

@@ -1,3 +1,4 @@
 config-file = ?theme.ghostty
 config-file = ?keybinds.ghostty
 macos-option-as-alt = true
+split-inherit-working-directory = false
