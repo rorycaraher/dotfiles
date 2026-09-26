@@ -11,16 +11,9 @@ git clone https://github.com/rorycaraher/dotfiles ~/dotfiles && cd ~/dotfiles
 exec zsh
 ```
 
-`bootstrap.sh` re-runs cleanly and only adds what's missing.
-
-## Backing out
-
-`backup.sh` creates restorable backups, `install.sh` checks if they exist.
-
-```sh
-./backup.sh                # snapshot current state of live dotfiles
-./restore.sh latest        # roll back to the latest backup
-```
+Both scripts re-run cleanly and only add what's missing. Add `-n` to either
+to preview exactly what it will do. Any config file already in place is kept
+next to its replacement as `<name>.bak.<timestamp>`.
 
 ---
 
@@ -130,7 +123,7 @@ in.
 
 `~/.claude/settings.json` is **merged**, not symlinked — Claude Code writes
 to that file itself. `install.sh` layers the repo's portable keys over the
-live file (backing it up first). So **change those settings in
+live file (keeping the previous copy as `settings.json.bak`). So **change those settings in
 `claude/settings.json` and re-run `./install.sh`**, not via `/config` — a
 `/config` change to a managed key gets reverted on the next install.
 
@@ -140,7 +133,9 @@ at project scope when a project needs one.
 ## Caps Lock
 
 Tap it for `Esc`, hold it for `Ctrl`;
-`Ctrl` + `I` / `J` / `K` / `L` are arrow keys.
+hold + `I` / `J` / `K` / `L` are arrow keys. Held, it sends *right* `Ctrl`,
+so the physical left `Ctrl` + `H` / `J` / `K` / `L` still reach nvim's
+window navigation.
 
 ---
 
@@ -158,7 +153,7 @@ Tap it for `Esc`, hold it for `Ctrl`;
 | `ohmyposh/` | prompt theme |
 | `karabiner/` | the Caps Lock remap |
 | `zed/` | editor config |
-| `install.sh` / `backup.sh` / `restore.sh` | link, snapshot, roll back |
+| `bootstrap.sh` / `install.sh` | Homebrew bundle, symlinks |
 
 Anything host-specific or private — extra aliases, tokens, per-host paths —
 goes in `~/.config/zsh-private/*.zsh`. It's sourced if present and never

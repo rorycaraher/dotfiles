@@ -4,31 +4,28 @@ This file provides guidance to Claude Code (claude.ai/code) and other agents
 when working with code in this repository. `CLAUDE.md` is a one-line
 `@AGENTS.md` shim so Claude Code reads it too.
 
-A macOS dotfiles repo: Homebrew bundle, symlinked configs, and a
-backup/restore lifecycle. No build, no test suite, no linter, no CI.
+A macOS dotfiles repo: Homebrew bundle and symlinked configs. No build, no
+test suite, no linter, no CI.
 
 ## Commands
 
 | | |
 |---|---|
 | `./bootstrap.sh [-n]` | install Homebrew if missing, then `brew bundle` the `Brewfile` |
-| `./install.sh [-n] [-y]` | symlink managed paths, merge `~/.claude/settings.json`, make runtime dirs, `mise install` |
-| `./backup.sh [-n]` | snapshot every managed path to `~/.dotfiles-backup/<stamp>/` + `manifest.json` |
-| `./restore.sh [-n] [-f] <stamp\|latest>` | manifest-driven, all-or-nothing restore |
+| `./install.sh [-n]` | symlink managed paths, merge `~/.claude/settings.json`, make runtime dirs, `mise install` |
 | `brew bundle check` | verify Brewfile deps are satisfied |
 
 - Every script takes `--dry-run`/`-n`. **Dry-run first** whenever you change
   script logic — it's the only safety net.
 - The only pre-handoff check that exists: `bash -n *.sh lib/*.sh` and
   `zsh -n zsh/config/*.zsh`.
-- `-y`/`--yes` on `install.sh` skips the "take a snapshot first" prompt.
 
 ## Architecture
 
 **`lib/paths.sh` `PAIRS` is the single source of truth for managed
 symlinks.** Each entry is `"<repo-relative source>::<absolute dest>"`.
-`install.sh`, `backup.sh`, and `restore.sh` all iterate it — adding a managed
-dotfile means adding one line here, nothing else.
+`install.sh` iterates it — adding a managed dotfile means adding one line
+here, nothing else.
 
 **`~/.claude/settings.json` is the one deliberate exception** — not in
 `PAIRS`. `install.sh`'s `merge_claude_settings()` deep-merges the repo's
@@ -40,16 +37,9 @@ via `/config`.
 
 **`install.sh` is idempotent.** `link()` handles three cases: already-correct
 symlink (noop), any other symlink (silent relink), real file/dir (timestamped
-`.bak.<stamp>` then link). Before replacing real files it checks for a
-`~/.dotfiles-backup/*/manifest.json` and, if none exists, prompts to run
-`backup.sh` first.
-
-**`backup.sh` / `restore.sh` are symmetric and manifest-driven.** The
-manifest records each managed path's state — `symlink` / `file` / `dir` /
-`absent` — plus the dotfiles commit, dirty flag, and hostname. `restore.sh`
-replays *all* of it, including removing a symlink for a path that was `absent`
-at backup time. It refuses to run if a managed path currently holds real
-(non-symlink) data — unsynced local edits — unless `--force`.
+`.bak.<stamp>` then link). That `.bak` is the whole safety net — no prompts,
+no snapshots, no restore script. The `settings.json` merge keeps one rolling
+`settings.json.bak`.
 
 **zsh config is numbered fragments.** `zsh/zshrc` sources
 `~/.config/zsh/*.zsh` in lexical order, then `~/.config/zsh-private/*.zsh`
@@ -62,6 +52,13 @@ new numbered file.
 **Two host-specific escape hatches, same shape:**
 `~/.config/zsh-private/*.zsh` (shell) and `~/.config/mise/conf.d/*.toml`
 (mise tools) — both auto-loaded by their tool, both unmanaged, both gitignored.
+
+**`nvim/` is symlinked whole to `~/.config/nvim`.** `init.lua` sets the
+leader, then loads `lua/config/{options,keymaps,lsp,lazy}`. lazy.nvim loads
+one plugin spec per file in `lua/plugins/`; `lazy-lock.json` is committed.
+LSP uses native `vim.lsp.enable()` — one `lsp/<server>.lua` per server,
+enabled in `config/lsp.lua`. Language servers come from the `Brewfile`, not
+Mason. Per-filetype options go in `after/ftplugin/<ft>.lua`.
 
 **Tool ownership boundaries:** `mise` = language runtimes + version-sensitive
 tools (pinned per-repo in `mise.toml`; global `mise/config.toml` stays thin).

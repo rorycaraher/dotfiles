@@ -2,7 +2,7 @@
   "title": "Caps Lock: Escape (tap) / Arrow keys with IJKL (hold)",
   "rules": [
     {
-      "description": "Caps Lock to Escape if alone, right Ctrl if held; IJKL become arrows with right Ctrl, so a real left Ctrl+I/J/K/L (e.g. in vim) is untouched",
+      "description": "Caps Lock to Escape if alone, right Ctrl if held; IJKL become arrows with right Ctrl, so left Ctrl+H/J/K/L (nvim window navigation) is untouched",
       "manipulators": [
         {
           "type": "basic",
