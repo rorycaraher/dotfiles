@@ -14,6 +14,7 @@ test suite, no linter, no CI.
 | `./bootstrap.sh [-n]` | install Homebrew if missing, then `brew bundle` the `Brewfile` |
 | `./install.sh [-n]` | symlink managed paths, merge `~/.claude/settings.json` and Karabiner rules, make runtime dirs, `mise install` |
 | `./macos.sh [-n]` | apply macOS `defaults` (see the script for the set); writes only on drift, then restarts affected UI. Opt-in, never called by `install.sh` |
+| `./docs.sh [-n]` | regenerate the tables in `docs/` between `<!-- BEGIN/END generated: … -->` markers; writes only on drift |
 | `brew bundle check` | verify Brewfile deps are satisfied |
 
 - Every script takes `--dry-run`/`-n`. **Dry-run first** whenever you change
@@ -82,6 +83,20 @@ Terraform sets `TF_BINARY=terraform` in `zsh-private/`.
 `claude/AGENTS.md` + `claude/CLAUDE.md` are the *global* `~/.claude/`
 instructions this repo installs on the machine — unrelated to this file.
 `templates/AGENTS.md` is a skeleton to copy into *other* projects.
+
+## Docs
+
+`README.md` stays a few lines; reference lives in `docs/`, one page per topic
+(index in `docs/README.md`). **When a change alters behaviour a doc describes,
+update that doc in the same change.** Aliases, key bindings, managed symlinks,
+macOS defaults, LSP servers, Brewfile tools, Caps Lock rules and the `claude/`
+settings each have a page.
+
+- Tables between `<!-- BEGIN generated: … -->` markers (aliases, symlinks,
+  macOS defaults) are generated. Run `./docs.sh`; never hand-edit them.
+- Everything else in `docs/` is hand-written: edit it directly.
+- A new topic gets a new page linked from `docs/README.md`. A new generated
+  table needs a generator in `docs.sh` plus its marker pair.
 
 ## Comments
 
