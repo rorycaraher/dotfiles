@@ -1,6 +1,6 @@
 # dotfiles
 
-My macOS config. Not meant for anyone else.
+config the dumb way
 
 ```sh
 git clone https://github.com/rorycaraher/dotfiles ~/dotfiles && cd ~/dotfiles
