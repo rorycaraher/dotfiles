@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Syntax
+        run: |
+          bash -n *.sh lib/*.sh
+          zsh -n zsh/config/*.zsh
+
+      # PATH excludes mise/brew so install.sh skips `mise install`
+      - name: install.sh is idempotent
+        run: |
+          export HOME="$RUNNER_TEMP/home"
+          mkdir -p "$HOME"
+          run() { env PATH=/usr/bin:/bin ./install.sh "$@"; }
+          run -n
+          run
+          run | tee "$RUNNER_TEMP/second.log"
+          if grep -E '^(LINK|RELINK|KEPT|COPY|MERGE) ' "$RUNNER_TEMP/second.log"; then
+            echo "::error::second install.sh run changed something"
+            exit 1
+          fi
+
+      - name: Docs tables are current
+        run: |
+          ./docs.sh
+          git diff --exit-code docs

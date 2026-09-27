@@ -5,7 +5,8 @@ when working with code in this repository. `CLAUDE.md` is a one-line
 `@AGENTS.md` shim so Claude Code reads it too.
 
 A macOS dotfiles repo: Homebrew bundle and symlinked configs. No build, no
-test suite, no linter, no CI.
+test suite, no linter. CI (`.github/workflows/ci.yml`) only runs the checks
+below.
 
 ## Commands
 
@@ -19,8 +20,9 @@ test suite, no linter, no CI.
 
 - Every script takes `--dry-run`/`-n`. **Dry-run first** whenever you change
   script logic — it's the only safety net.
-- The only pre-handoff check that exists: `bash -n *.sh lib/*.sh` and
-  `zsh -n zsh/config/*.zsh`.
+- Pre-handoff check: `bash -n *.sh lib/*.sh` and `zsh -n zsh/config/*.zsh`.
+  CI adds two more: `install.sh` run twice against a throwaway `HOME` (the
+  second run must change nothing), and `./docs.sh` leaving `docs/` clean.
 
 ## Architecture
 
