@@ -12,7 +12,7 @@ PAIRS=(
   "ghostty/theme.ghostty::$HOME/.config/ghostty/theme.ghostty"
   "ghostty/keybinds.ghostty::$HOME/.config/ghostty/keybinds.ghostty"
   "ohmyposh/config.omp.json::$HOME/.config/ohmyposh/config.omp.json"
-  "karabiner/capslock-ijkl.json::$HOME/.config/karabiner/assets/complex_modifications/capslock-ijkl.json"
+  "git/ignore::$HOME/.config/git/ignore"
   "zed/settings.json::$HOME/.config/zed/settings.json"
   "zed/keymap.json::$HOME/.config/zed/keymap.json"
   "nvim::$HOME/.config/nvim"

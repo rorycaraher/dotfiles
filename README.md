@@ -8,10 +8,11 @@ shell config the dumb way
 git clone https://github.com/rorycaraher/dotfiles ~/dotfiles && cd ~/dotfiles
 ./bootstrap.sh     # Homebrew and Brewfile
 ./install.sh       # symlink configs, then realise mise tools
+./macos.sh         # optional: macOS defaults
 exec zsh
 ```
 
-Both scripts re-run cleanly and only add what's missing. Add `-n` to either
+Each script re-runs cleanly and only adds what's missing. Add `-n` to any
 to preview exactly what it will do. Any config file already in place is kept
 next to its replacement as `<name>.bak.<timestamp>`.
 
@@ -19,22 +20,10 @@ next to its replacement as `<name>.bak.<timestamp>`.
 
 ## Useful state in your prompt
 
-<!--
-> **TODO — screenshot.** A real terminal prompt in this config: a couple of
-> lines showing the path segment, the git branch with ahead/behind and
-> dirty/staged markers, and a command that exited non-zero so the `❯` is red.
--->
-
 `git status` summary in your prompt, refreshed every command.
 `❯` turns red after a non-zero exit code.
 
 ## `ls` shows file state, not just names
-
-<!--
-> **TODO — screenshot.** `ll` in a git repo with a mix of tracked, modified,
-> and untracked files, so the colour and the git-status column are both
-> visible. A second frame with `lt` showing the tree view.
--->
 
 `ls` replaced by `eza` shows permissions, size, mtime, and per-file
 git status, coloured by type. `lt` draws a tree, `la` includes dotfiles.
@@ -48,12 +37,6 @@ Explicit calls to `$PAGER` still works.
 
 ## Colorful command suggestion
 
-<!--
-> **TODO — screenshot (or short gif).** Mid-typing: a mistyped command name in
-> red from the syntax highlighter, and a grey autosuggestion completing a
-> previous command ahead of the cursor.
--->
-
 Mistakes and repeats stand out before you hit enter:
 
 - A command name that won't resolve is red as you type it
@@ -62,12 +45,6 @@ Mistakes and repeats stand out before you hit enter:
   (`zsh-autosuggestions`); `→` accepts it.
 
 ## Lazy navigation
-
-<!--
-> **TODO — screenshot (or short gif).** `z <partial>` jumping to a deep
-> project directory; then `Ctrl-R` open with a fuzzy history search narrowing
-> as you type.
--->
 
 Get anywhere with less keystrokes:
 
@@ -130,6 +107,14 @@ live file (keeping the previous copy as `settings.json.bak`). So **change those 
 No global MCP servers, by design — they cost context every session. Add them
 at project scope when a project needs one.
 
+## macOS defaults
+
+`./macos.sh` is opt-in; `install.sh` never runs it. It only writes settings
+that differ, `-n` previews the changes, and it restarts the Dock, Finder or
+`SystemUIServer` so they apply without a log out. Among them, screenshots go
+to `~/Screenshots` (created if missing) as PNG, without the window drop
+shadow, instead of the Desktop.
+
 ## Caps Lock
 
 Tap it for `Esc`, hold it for `Ctrl`;
@@ -145,15 +130,21 @@ window navigation.
 |------|--|
 | `Brewfile` | CLI tools and apps |
 | `zsh/config/` | shell config, one topic per numbered file |
+| `nvim/` | Neovim config (lazy.nvim, native LSP) |
+| `git/` | global git ignore |
 | `mise/` | global `mise` config (thin) |
 | `terraform/` | shared CLI config + provider plugin cache |
 | `claude/` | global agent instructions + merged `settings.json` |
 | `templates/` | skeletons to copy into project repos |
 | `ghostty/` | terminal ([Ghostty](https://ghostty.org)) |
 | `ohmyposh/` | prompt theme |
-| `karabiner/` | the Caps Lock remap |
+| `karabiner/` | the Caps Lock remap, merged into `karabiner.json` |
 | `zed/` | editor config |
 | `bootstrap.sh` / `install.sh` | Homebrew bundle, symlinks |
+| `macos.sh` | macOS `defaults` |
+
+Standalone scripts aren't config and live in their own repo; `~/tools/bin` is
+on `PATH` if it exists.
 
 Anything host-specific or private — extra aliases, tokens, per-host paths —
 goes in `~/.config/zsh-private/*.zsh`. It's sourced if present and never
@@ -169,4 +160,3 @@ echo 'export TF_BINARY=terraform' > ~/.config/zsh-private/terraform.zsh
 Install `terraform` however that host standardises — Homebrew, or `tfenv` if
 a `.terraform-version` file drives the version. If a version manager owns
 `terraform`, keep it out of `mise` so there aren't two shims on `PATH`.
-y # modified marker

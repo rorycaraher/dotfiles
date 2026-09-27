@@ -1,2 +1,2 @@
 # PATH modifications go here, loaded early
-path=("$HOME/.local/bin" $path)
+path=("$HOME/tools/bin" "$HOME/.local/bin" $path)

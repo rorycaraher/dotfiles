@@ -12,7 +12,8 @@ test suite, no linter, no CI.
 | | |
 |---|---|
 | `./bootstrap.sh [-n]` | install Homebrew if missing, then `brew bundle` the `Brewfile` |
-| `./install.sh [-n]` | symlink managed paths, merge `~/.claude/settings.json`, make runtime dirs, `mise install` |
+| `./install.sh [-n]` | symlink managed paths, merge `~/.claude/settings.json` and Karabiner rules, make runtime dirs, `mise install` |
+| `./macos.sh [-n]` | apply macOS `defaults` (see the script for the set); writes only on drift, then restarts affected UI. Opt-in, never called by `install.sh` |
 | `brew bundle check` | verify Brewfile deps are satisfied |
 
 - Every script takes `--dry-run`/`-n`. **Dry-run first** whenever you change
@@ -27,13 +28,20 @@ symlinks.** Each entry is `"<repo-relative source>::<absolute dest>"`.
 `install.sh` iterates it — adding a managed dotfile means adding one line
 here, nothing else.
 
-**`~/.claude/settings.json` is the one deliberate exception** — not in
-`PAIRS`. `install.sh`'s `merge_claude_settings()` deep-merges the repo's
-`claude/settings.json` (portable keys only) *over* the live file with `jq`,
-because Claude Code writes to that file itself (the `autoMode` block, `/config`
-changes). Repo wins on shared keys; host-only keys are preserved. Consequence:
-change those settings in `claude/settings.json` and re-run `install.sh`, never
-via `/config`.
+**Two files are deliberate exceptions** — not in `PAIRS`, because the app
+that owns each one writes to it. `install.sh` merges into them with `jq`,
+keeps one rolling `.bak`, and writes only on drift.
+
+- `~/.claude/settings.json`: `merge_claude_settings()` deep-merges the repo's
+  `claude/settings.json` (portable keys only) *over* the live file (the
+  `autoMode` block, `/config` changes). Repo wins on shared keys; host-only
+  keys are preserved. Change those settings in `claude/settings.json` and
+  re-run `install.sh`, never via `/config`.
+- `~/.config/karabiner/karabiner.json`: `merge_karabiner_rules()` upserts the
+  rules in `karabiner/capslock-ijkl.json` into the selected profile, matched by
+  rule `description`. Other rules are kept. Karabiner hot-reloads the file, so
+  there is no manual import. Renaming a rule's `description` leaves the old
+  one behind as an orphan.
 
 **`install.sh` is idempotent.** `link()` handles three cases: already-correct
 symlink (noop), any other symlink (silent relink), real file/dir (timestamped
@@ -52,6 +60,10 @@ new numbered file.
 **Two host-specific escape hatches, same shape:**
 `~/.config/zsh-private/*.zsh` (shell) and `~/.config/mise/conf.d/*.toml`
 (mise tools) — both auto-loaded by their tool, both unmanaged, both gitignored.
+
+**Standalone scripts don't live here.** `~/tools/bin` is on `PATH` (via
+`00-path.zsh`) and belongs to a separate repo; a missing directory is ignored.
+Config goes in this repo, programs in that one.
 
 **`nvim/` is symlinked whole to `~/.config/nvim`.** `init.lua` sets the
 leader, then loads `lua/config/{options,keymaps,lsp,lazy}`. lazy.nvim loads

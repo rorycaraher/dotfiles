@@ -99,64 +99,55 @@ merge_claude_settings() {
 step "Merging ~/.claude/settings.json..."
 merge_claude_settings
 
-# Karabiner copies a rule into karabiner.json when it's enabled, so edits to the
-# symlinked asset never reach the live config. Detect drift and hand the rule
-# over via the clipboard for a manual paste.
-check_karabiner_rules() {
+# Not a symlink: Karabiner writes karabiner.json itself and hot-reloads it on
+# change. Upsert the repo's rules, matched by description, into the selected profile.
+merge_karabiner_rules() {
   local src="$DOTFILES/karabiner/capslock-ijkl.json"
-  local live="$HOME/.config/karabiner/karabiner.json"
+  local dest="$HOME/.config/karabiner/karabiner.json"
 
-  if [ ! -f "$live" ]; then
+  if [ -L "$dest" ]; then
+    warn "$dest is a symlink -- skipping. karabiner.json must be a real file Karabiner can write."
+    return
+  fi
+
+  if [ ! -f "$dest" ]; then
     tag "$C_DIM" SKIP "karabiner.json not found ${C_DIM}(Karabiner-Elements not set up yet)${C_RESET}"
     return
   fi
 
-  # Rules missing from the selected profile; jq object equality ignores key order.
-  local missing
-  missing="$(jq -c --slurpfile a "$src" '
-    (.profiles[] | select(.selected) | .complex_modifications.rules // []) as $live
-    | $a[0].rules[] | select(. as $r | $live | any(. == $r) | not)
-  ' "$live")"
-
-  if [ -z "$missing" ]; then
-    tag "$C_GREEN" OK "Karabiner rules ${C_DIM}(in sync)${C_RESET}"
+  local tmp; tmp="$(mktemp)"
+  if ! jq --slurpfile r "$src" '
+    $r[0].rules as $new
+    | (.profiles[] | select(.selected) | .complex_modifications.rules) |= (
+        (. // []) as $live
+        | ($live | map(. as $l | ($new | map(select(.description == $l.description)) | .[0]) // $l))
+          + ($new | map(select(.description as $d | $live | any(.description == $d) | not)))
+      )
+  ' "$dest" > "$tmp"; then
+    rm -f "$tmp"
+    err "karabiner.json merge failed -- left $dest untouched."
     return
   fi
 
-  local count; count="$(printf '%s\n' "$missing" | wc -l | tr -d ' ')"
-  tag "$C_YELLOW" DRIFT "$count Karabiner rule(s) differ from the live config"
+  if jq -e --slurpfile m "$tmp" '. == $m[0]' "$dest" >/dev/null; then
+    rm -f "$tmp"
+    tag "$C_GREEN" OK "$dest ${C_DIM}(rules in sync)${C_RESET}"
+    return
+  fi
 
+  local backup="$dest.bak"
+  tag "$C_YELLOW" MERGE "$dest ${C_DIM}(repo rules into selected profile; previous copy ->${C_RESET} $backup${C_DIM})${C_RESET}"
   if [ "$DRY_RUN" -eq 1 ]; then
-    dry "jq '<rule>' | pbcopy, open Karabiner-Elements, then prompt to paste into Karabiner"
+    rm -f "$tmp"
+    dry "jq <upsert rules by description> $dest > $dest"
     return
   fi
-  if [ ! -t 0 ]; then
-    warn "Re-run ./install.sh interactively to copy the rule(s) to the clipboard."
-    return
-  fi
-
-  local rule desc
-  while IFS= read -r rule; do
-    desc="$(printf '%s' "$rule" | jq -r .description)"
-    printf '%s' "$rule" | jq . | pbcopy
-    printf '    Copied to clipboard: %s%s%s\n' "$C_BOLD" "$desc" "$C_RESET"
-    printf '    In Karabiner-Elements > Complex Modifications:\n'
-    printf '      1. Remove the old version of this rule, if present\n'
-    printf '      2. Add your own rule, paste (Cmd+V), and save\n'
-    local n
-    for n in 3 2 1; do
-      printf '\r    Opening Karabiner-Elements in %s... ' "$n"
-      sleep 1
-    done
-    printf '\r%*s\r' 45 ''
-    open -a "Karabiner-Elements" || true
-    printf '    Press Enter when done (or Ctrl+C to skip) '
-    read -r _ || true
-  done <<< "$missing"
+  cp "$dest" "$backup"
+  mv "$tmp" "$dest"
 }
 
-step "Checking Karabiner rules..."
-check_karabiner_rules
+step "Merging Karabiner rules..."
+merge_karabiner_rules
 
 step "Creating runtime directories..."
 run mkdir -p "$HOME/.terraform.d/plugin-cache" "$HOME/.tflint.d/plugins"
