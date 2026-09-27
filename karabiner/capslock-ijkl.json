@@ -1,8 +1,8 @@
 {
-  "title": "Caps Lock: Escape (tap) / Arrow keys with IJKL (hold)",
+  "title": "Caps Lock: Escape (tap) / IJKL arrows, W/B word jumps, 0/4 line start/end (hold)",
   "rules": [
     {
-      "description": "Caps Lock to Escape if alone, right Ctrl if held; IJKL become arrows with right Ctrl, so left Ctrl+H/J/K/L (nvim window navigation) is untouched",
+      "description": "Caps Lock to Escape if alone, right Ctrl if held; IJKL become arrows and W/B become Option+Right/Left (word jumps), 0/4 become Home/End with right Ctrl, so left Ctrl+H/J/K/L (nvim window navigation) is untouched",
       "manipulators": [
         {
           "type": "basic",
@@ -29,6 +29,26 @@
           "type": "basic",
           "from": { "key_code": "l", "modifiers": { "mandatory": ["right_control"], "optional": ["any"] } },
           "to": [{ "key_code": "right_arrow" }]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "w", "modifiers": { "mandatory": ["right_control"], "optional": ["any"] } },
+          "to": [{ "key_code": "right_arrow", "modifiers": ["left_option"] }]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "b", "modifiers": { "mandatory": ["right_control"], "optional": ["any"] } },
+          "to": [{ "key_code": "left_arrow", "modifiers": ["left_option"] }]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "0", "modifiers": { "mandatory": ["right_control"], "optional": ["any"] } },
+          "to": [{ "key_code": "home" }]
+        },
+        {
+          "type": "basic",
+          "from": { "key_code": "4", "modifiers": { "mandatory": ["right_control"], "optional": ["any"] } },
+          "to": [{ "key_code": "end" }]
         }
       ]
     }

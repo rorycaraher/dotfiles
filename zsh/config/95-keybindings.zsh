@@ -12,3 +12,16 @@ bindkey "^[OB" down-line-or-beginning-search
 
 # forward-delete; zsh's emacs keymap leaves it unbound, so the terminal's escape sequence prints as ~
 bindkey "^[[3~" delete-char
+
+# Option+Left/Right as sent by Ghostty; the Caps Lock+B/W Karabiner rules produce these
+bindkey "^[[1;3D" backward-word
+bindkey "^[[1;3C" forward-word
+
+# Home/End for line start/end (Caps Lock+0/4); zsh's emacs keymap leaves them unbound, and application mode sends ^[O variants
+bindkey "^[[H" beginning-of-line
+bindkey "^[OH" beginning-of-line
+bindkey "^[[F" end-of-line
+bindkey "^[OF" end-of-line
+
+# nvim's iskeyword: only alphanumerics and _ are word characters
+WORDCHARS='_'
