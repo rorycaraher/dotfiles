@@ -8,6 +8,7 @@ scripts, fragment numbering) is in [`../AGENTS.md`](../AGENTS.md).
 - [shell.md](shell.md) — zsh: aliases, history, completion, navigation, keys
 - [keyboard.md](keyboard.md) — Caps Lock remap and the keys that depend on it
 - [terraform.md](terraform.md) — `tf` wrapper, plugin cache, lock files
+- [sops.md](sops.md) — age key setup, `.sops.yaml` template
 - [claude-code.md](claude-code.md) — global agent instructions and `settings.json` merge
 - [macos.md](macos.md) — `macos.sh` defaults
 - [nvim.md](nvim.md) — Neovim keymaps, LSP, plugins

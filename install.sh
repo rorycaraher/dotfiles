@@ -150,7 +150,16 @@ step "Merging Karabiner rules..."
 merge_karabiner_rules
 
 step "Creating runtime directories..."
-run mkdir -p "$HOME/.terraform.d/plugin-cache" "$HOME/.tflint.d/plugins"
+run mkdir -p "$HOME/.terraform.d/plugin-cache" "$HOME/.tflint.d/plugins" "$HOME/.config/sops/age"
+
+# Never generate the key ourselves -- it's a private key, the user runs this by hand.
+sops_age_key="$HOME/.config/sops/age/keys.txt"
+if [ -f "$sops_age_key" ]; then
+  tag "$C_GREEN" OK "$sops_age_key ${C_DIM}(age key present)${C_RESET}"
+else
+  tag "$C_CYAN" TODO "no age key yet -- generate one:"
+  printf '    age-keygen -o %s\n' "$sops_age_key"
+fi
 
 # Realise the pinned tools from the config we just linked. Non-fatal.
 if command -v mise >/dev/null 2>&1; then

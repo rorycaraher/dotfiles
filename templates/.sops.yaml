@@ -1,0 +1,17 @@
+# Copy to a project root as .sops.yaml, fill in the age recipient(s), then
+# delete this comment.
+#
+#   cp ~/dotfiles/templates/.sops.yaml ./.sops.yaml
+#
+# One-time per host:
+#   age-keygen -o ~/.config/sops/age/keys.txt
+#   age-keygen -y ~/.config/sops/age/keys.txt   # prints the public key below
+
+keys:
+  - &host age1REPLACE_WITH_PUBLIC_KEY
+
+creation_rules:
+  - path_regex: .*\.(ya?ml|json|env)$
+    key_groups:
+      - age:
+          - *host
