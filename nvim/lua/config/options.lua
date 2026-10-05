@@ -16,3 +16,9 @@ opt.signcolumn = "yes"
 opt.undofile = true
 opt.termguicolors = true
 opt.mouse = "a"
+opt.autoread = true
+
+-- autoread only fires on :checktime; terminals don't check on their own
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+  command = "checktime",
+})

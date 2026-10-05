@@ -27,6 +27,7 @@ Every script is idempotent and takes `-n` / `--dry-run` to preview.
 | `ghostty/keybinds.ghostty` | `~/.config/ghostty/keybinds.ghostty` |
 | `ohmyposh/config.omp.json` | `~/.config/ohmyposh/config.omp.json` |
 | `git/ignore` | `~/.config/git/ignore` |
+| `git/config` | `~/.config/git/config` |
 | `zed/settings.json` | `~/.config/zed/settings.json` |
 | `zed/keymap.json` | `~/.config/zed/keymap.json` |
 | `nvim` | `~/.config/nvim` |

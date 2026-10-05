@@ -13,6 +13,7 @@ PAIRS=(
   "ghostty/keybinds.ghostty::$HOME/.config/ghostty/keybinds.ghostty"
   "ohmyposh/config.omp.json::$HOME/.config/ohmyposh/config.omp.json"
   "git/ignore::$HOME/.config/git/ignore"
+  "git/config::$HOME/.config/git/config"
   "zed/settings.json::$HOME/.config/zed/settings.json"
   "zed/keymap.json::$HOME/.config/zed/keymap.json"
   "nvim::$HOME/.config/nvim"

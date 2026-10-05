@@ -1,1 +1,2 @@
 keybind = global:ctrl+apostrophe=toggle_quick_terminal
+keybind = super+shift+enter=toggle_split_zoom

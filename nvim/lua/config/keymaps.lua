@@ -13,3 +13,5 @@ map("n", "<leader>q", "<cmd>quit<CR>")
 -- mouse-drag selection + Cmd+C copies to system clipboard; without this,
 -- terminals forward it as a bare "c" and visual mode reads it as change/cut
 map("v", "<D-c>", '"+y')
+
+map("n", "<leader>e", vim.diagnostic.open_float, { desc = "Line diagnostics" })
