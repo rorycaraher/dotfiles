@@ -22,8 +22,9 @@ Currently: colorscheme, git-conflict, lualine, markdown, oil, telescope, which-k
 ## LSP
 
 Native `vim.lsp.enable()`, enabled in `config/lsp.lua`, config in
-`lsp/<server>.lua`: `terraformls`, `marksman`, `gopls`. Servers come from the
-Brewfile, not Mason. To add one: brew it, add `lsp/<server>.lua`, add the name
+`lsp/<server>.lua`: `terraformls`, `marksman`, `gopls`, `bashls`
+(sh, bash and zsh; `shellcheck` diagnostics don't cover zsh). Servers come from
+the Brewfile, not Mason. To add one: brew it, add `lsp/<server>.lua`, add the name
 to `config/lsp.lua`.
 
 ## Filetype options

@@ -1,1 +1,1 @@
-vim.lsp.enable({ "terraformls", "marksman", "gopls" })
+vim.lsp.enable({ "terraformls", "marksman", "gopls", "bashls" })
