@@ -12,12 +12,14 @@ then loads `lua/config/{options,keymaps,lsp,lazy}`.
 | `<leader>w` | n | write |
 | `<leader>q` | n | quit |
 | `<leader>e` | n | show diagnostics for the line in a float |
+| `<leader>.` | n | toggle scratch buffer (per cwd + filetype, persisted) |
+| `<leader>S` | n | pick from existing scratch buffers |
 | `<D-c>` | v | copy to system clipboard |
 
 ## Plugins
 
 lazy.nvim, one spec per file in `lua/plugins/`; `lazy-lock.json` is committed.
-Currently: colorscheme, git-conflict, lualine, markdown, oil, telescope, which-key.
+Currently: colorscheme, git-conflict, lualine, markdown, oil, snacks, telescope, which-key.
 
 ## LSP
 
