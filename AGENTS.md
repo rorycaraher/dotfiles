@@ -41,7 +41,7 @@ keeps one rolling `.bak`, and writes only on drift.
   keys are preserved. Change those settings in `claude/settings.json` and
   re-run `install.sh`, never via `/config`.
 - `~/.config/karabiner/karabiner.json`: `merge_karabiner_rules()` upserts the
-  rules in `karabiner/capslock-ijkl.json` into the selected profile, matched by
+  rules in `karabiner/capslock-nav.json` into the selected profile, matched by
   rule `description`. Other rules are kept. Karabiner hot-reloads the file, so
   there is no manual import. Renaming a rule's `description` leaves the old
   one behind as an orphan.

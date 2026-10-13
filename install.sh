@@ -102,7 +102,7 @@ merge_claude_settings
 # Not a symlink: Karabiner writes karabiner.json itself and hot-reloads it on
 # change. Upsert the repo's rules, matched by description, into the selected profile.
 merge_karabiner_rules() {
-  local src="$DOTFILES/karabiner/capslock-ijkl.json"
+  local src="$DOTFILES/karabiner/capslock-nav.json"
   local dest="$HOME/.config/karabiner/karabiner.json"
 
   if [ -L "$dest" ]; then

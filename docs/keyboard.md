@@ -1,6 +1,6 @@
 # Keyboard
 
-Karabiner rules in `karabiner/capslock-ijkl.json`. `install.sh` upserts them
+Karabiner rules in `karabiner/capslock-nav.json`. `install.sh` upserts them
 into the selected profile of `~/.config/karabiner/karabiner.json`, matched by
 rule `description`; other rules are untouched and Karabiner hot-reloads. Renaming a
 rule's `description` orphans the old one, so delete it by hand.
