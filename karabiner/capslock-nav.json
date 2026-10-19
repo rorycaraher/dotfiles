@@ -1,8 +1,8 @@
 {
-  "title": "Caps Lock: Escape (tap) / IJKL arrows, W/B word jumps, 0/4 line start/end (hold)",
+  "title": "Caps Lock: Escape (tap) / HJKL arrows, W/B word jumps, 0/4 line start/end (hold)",
   "rules": [
     {
-      "description": "Caps Lock to Escape if alone, right Ctrl if held; IJKL become arrows and W/B become Option+Right/Left (word jumps), 0/4 become Home/End with right Ctrl, so left Ctrl+H/J/K/L (nvim window navigation) is untouched",
+      "description": "Caps Lock to Escape if alone, right Ctrl if held; H/J/K/L become Left/Down/Up/Right, W/B become Option+Right/Left (word jumps), 0/4 become Home/End; all via right Ctrl, so left Ctrl+H/J/K/L (nvim window navigation) is untouched",
       "manipulators": [
         {
           "type": "basic",
