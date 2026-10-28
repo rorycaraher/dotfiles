@@ -25,7 +25,13 @@ autoload -Uz bashcompinit && bashcompinit
 for _tfbin in terraform tofu; do
   command -v "$_tfbin" >/dev/null && complete -o nospace -C "$(command -v "$_tfbin")" "$_tfbin"
 done
-# tf resolves at call time, so point its completion at the same binary now
-command -v "${TF_BINARY:-tofu}" >/dev/null &&
-  complete -o nospace -C "$(command -v "${TF_BINARY:-tofu}")" tf
 unset _tfbin
+
+# zsh-private/ sets TF_BINARY after this file loads, so resolve it at Tab time
+_tf() {
+  local bin line
+  bin=$(command -v "${TF_BINARY:-tofu}") || return
+  line="${(j: :)words[1,CURRENT]}"
+  compadd -S '' -- ${(f)"$(COMP_LINE=$line COMP_POINT=${#line} $bin)"}
+}
+compdef _tf tf
