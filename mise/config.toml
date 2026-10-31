@@ -4,6 +4,7 @@
 [tools]
 # default IaC tool; minor-pinned so a state-format bump is a deliberate edit
 opentofu = "1.12"
+python = "3.14.8"
 
 [settings]
 # auto-install missing tools; mise trust still gates unknown configs
