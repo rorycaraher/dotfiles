@@ -25,9 +25,12 @@ Currently: colorscheme, git-conflict, lualine, markdown, oil, snacks, telescope,
 
 Native `vim.lsp.enable()`, enabled in `config/lsp.lua`, config in
 `lsp/<server>.lua`: `terraformls`, `marksman`, `gopls`, `bashls`
-(sh, bash and zsh; `shellcheck` diagnostics don't cover zsh). Servers come from
-the Brewfile, not Mason. To add one: brew it, add `lsp/<server>.lua`, add the name
-to `config/lsp.lua`.
+(sh, bash and zsh; `shellcheck` diagnostics don't cover zsh), `rust_analyzer`.
+Servers come from the Brewfile, not Mason. To add one: brew it, add
+`lsp/<server>.lua`, add the name to `config/lsp.lua`.
+
+The exception is `rust_analyzer`, which comes from rustup so it matches the
+toolchain: `rustup component add rust-analyzer rust-src`.
 
 ## Filetype options
 
