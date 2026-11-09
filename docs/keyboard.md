@@ -14,7 +14,7 @@ nvim's window navigation.
 
 | Caps Lock + | Sends | Used for |
 |---|---|---|
-| `H` `J` `K` `L` | `← ↓ ↑ →` | arrows |
+| `H` `J` `K` `L` | `← ↓ ↑ →` | arrows; with Shift they move zellij pane focus |
 | `W` / `B` | `Option-→` / `Option-←` | word jumps |
 | `0` / `4` | `Home` / `End` | line start / end |
 

@@ -21,3 +21,4 @@
 *.local
 *.private
 zsh-private/
+zellij-private/

@@ -12,6 +12,7 @@ fi
 if [ "$DRY_RUN" -eq 1 ]; then
   dry "would ensure Homebrew is installed (curl | bash from Homebrew/install)"
   dry "would run: brew bundle --file=$DOTFILES/Brewfile"
+  [ -f "$DOTFILES/Brewfile.local" ] && dry "would run: brew bundle --file=$DOTFILES/Brewfile.local"
   exit 0
 fi
 
@@ -28,5 +29,10 @@ fi
 
 step "Installing packages from Brewfile..."
 brew bundle --file="$DOTFILES/Brewfile"
+
+if [ -f "$DOTFILES/Brewfile.local" ]; then
+  step "Installing packages from Brewfile.local..."
+  brew bundle --file="$DOTFILES/Brewfile.local"
+fi
 
 step "Done."
