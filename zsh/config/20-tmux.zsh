@@ -10,9 +10,12 @@ tm() {
     return
   fi
   tmux new-session -d -s "$name" -c "$PWD" nvim .
-  tmux split-window -hb -l 33% -t "$name:1.1" -c "$PWD"
-  tmux split-window -v -l 30% -t "$name:1.1" -c "$PWD"
+  tmux split-window -hb -l 25% -t "$name:1.1" -c "$PWD"
+  tmux split-window -v -l 10% -t "$name:1.1" -c "$PWD"
   tmux send-keys -t "$name:1.1" "${SANDBOX:-rsbx}" Enter
-  tmux select-pane -t "$name:1.3"
+  tmux set -p -t "$name:1.1" @role sandbox
+  tmux set -p -t "$name:1.2" @role shell
+  tmux set -p -t "$name:1.3" @role nvim
+  tmux select-pane -t "$name:1.1"
   tmux attach -t "=$name" 2>/dev/null || tmux switch-client -t "=$name"
 }
