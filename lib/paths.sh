@@ -17,4 +17,5 @@ PAIRS=(
   "zed/settings.json::$HOME/.config/zed/settings.json"
   "zed/keymap.json::$HOME/.config/zed/keymap.json"
   "nvim::$HOME/.config/nvim"
+  "tmux/tmux.conf::$HOME/.config/tmux/tmux.conf"
 )

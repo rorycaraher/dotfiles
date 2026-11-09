@@ -17,6 +17,7 @@
 | `....` | `../../..` | `10-navigation` |
 | `.....` | `../../../..` | `10-navigation` |
 | `cat` | `bat --paging=never` | `20-bat` |
+| `catp` | `bat -pp --paging=never` | `20-bat` |
 | `ls` | `eza` | `20-eza` |
 | `ll` | `eza -l --git` | `20-eza` |
 | `la` | `eza -la --git` | `20-eza` |
@@ -25,6 +26,8 @@
 | `gaa` | `git add --all` | `20-git` |
 | `gapa` | `git add --patch` | `20-git` |
 | `gcmsg` | `git commit --message` | `20-git` |
+| `gco` | `git checkout` | `20-git` |
+| `vim` | `"nvim"` | `20-nvim` |
 | `tfi` | `tf init` | `20-terraform` |
 | `tfp` | `tf plan` | `20-terraform` |
 | `tfa` | `tf apply` | `20-terraform` |

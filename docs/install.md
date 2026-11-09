@@ -31,6 +31,7 @@ Every script is idempotent and takes `-n` / `--dry-run` to preview.
 | `zed/settings.json` | `~/.config/zed/settings.json` |
 | `zed/keymap.json` | `~/.config/zed/keymap.json` |
 | `nvim` | `~/.config/nvim` |
+| `tmux/tmux.conf` | `~/.config/tmux/tmux.conf` |
 <!-- END generated: symlinks -->
 
 If the destination is a real file or directory it is renamed to
