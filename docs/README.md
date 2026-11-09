@@ -12,4 +12,4 @@ scripts, fragment numbering) is in [`../AGENTS.md`](../AGENTS.md).
 - [claude-code.md](claude-code.md) — global agent instructions and `settings.json` merge
 - [macos.md](macos.md) — `macos.sh` defaults
 - [nvim.md](nvim.md) — Neovim keymaps, LSP, plugins
-- [tmux.md](tmux.md) — tmux config and the `dev` pane layout
+- [tmux.md](tmux.md) — tmux config and the `tm dev` pane layout
