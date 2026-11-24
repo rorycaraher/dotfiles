@@ -36,7 +36,8 @@ which-key.
 
 Native `vim.lsp.enable()`, enabled in `config/lsp.lua`, config in
 `lsp/<server>.lua`: `terraformls`, `marksman`, `gopls`, `bashls`
-(sh, bash and zsh; `shellcheck` diagnostics don't cover zsh), `rust_analyzer`.
+(sh, bash and zsh; `shellcheck` diagnostics don't cover zsh), `rust_analyzer`,
+`pyright` (types) and `ruff` (lint, format).
 Servers come from the Brewfile, not Mason. To add one: brew it, add
 `lsp/<server>.lua`, add the name to `config/lsp.lua`.
 
@@ -45,13 +46,12 @@ toolchain: `rustup component add rust-analyzer rust-src`.
 
 ## Filetype options
 
-`after/ftplugin/<ft>.lua` (`go`, `markdown`). Defaults (`config/options.lua`):
+`after/ftplugin/<ft>.lua` (`go`, `markdown`, `python`). Defaults (`config/options.lua`):
 2-space indent, relative numbers, smartcase search, persistent undo. `go` uses
-tabs (width 4) and organizes imports plus formats on save; `markdown` wraps
+tabs (width 4) and organizes imports plus formats on save; `python` formats
+on save with ruff; `markdown` wraps
 at word boundaries with `conceallevel=2`.
 
-AppleScript has no upstream support, so `ftdetect/` maps `*.applescript` and
-`syntax/applescript.vim` provides basic highlighting.
 
 ## Merge conflicts
 
