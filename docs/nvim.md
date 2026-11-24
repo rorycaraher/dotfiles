@@ -3,27 +3,6 @@
 `nvim/` is symlinked whole to `~/.config/nvim`. `init.lua` sets the leader,
 then loads `lua/config/{options,keymaps,lsp,lazy}`.
 
-## Keymaps
-
-| Key | Mode | Action |
-|---|---|---|
-| `<Esc>` | n | clear search highlight |
-| `<C-h/j/k/l>` | n | move between windows |
-| `<leader>w` | n | write |
-| `<leader>q` | n | quit |
-| `<leader>e` | n | show diagnostics for the line in a float |
-| `<leader>.` | n | toggle scratch buffer (per cwd + filetype, persisted) |
-| `<leader>S` | n | pick from existing scratch buffers |
-| `<D-c>` | v | copy to system clipboard |
-| `-` | n | oil: open parent directory |
-| `<leader>/` | n | which-key: buffer-local keymaps |
-| `<leader>ff` / `<leader>fF` | n | telescope: find files / incl. gitignored |
-| `<leader>fg` / `<leader>fG` | n | telescope: live grep / incl. gitignored |
-| `<leader>fb` / `<leader>fh` | n | telescope: buffers / help tags |
-
-Telescope searches hidden files (but never `.git/`). oil shows hidden files
-too, except `.git`.
-
 ## Plugins
 
 lazy.nvim, one spec per file in `lua/plugins/`; `lazy-lock.json` is committed.
@@ -44,6 +23,29 @@ lazy.nvim, one spec per file in `lua/plugins/`; `lazy-lock.json` is committed.
 
 Beyond plugins: native LSP (below), per-filetype options (`after/ftplugin/`),
 and `autoread` handling (`config/options.lua`).
+
+## Keymaps
+
+The leader key is `<Space>`.
+
+| Key | Mode | Action |
+|---|---|---|
+| `<Esc>` | n | clear search highlight |
+| `<C-h/j/k/l>` | n | move between windows |
+| `<leader>w` | n | write |
+| `<leader>q` | n | quit |
+| `<leader>e` | n | show diagnostics for the line in a float |
+| `<leader>.` | n | toggle scratch buffer (per cwd + filetype, persisted) |
+| `<leader>S` | n | pick from existing scratch buffers |
+| `<D-c>` | v | copy to system clipboard |
+| `-` | n | oil: open parent directory |
+| `<leader>/` | n | which-key: buffer-local keymaps |
+| `<leader>ff` / `<leader>fF` | n | telescope: find files / incl. gitignored |
+| `<leader>fg` / `<leader>fG` | n | telescope: live grep / incl. gitignored |
+| `<leader>fb` / `<leader>fh` | n | telescope: buffers / help tags |
+
+Telescope searches hidden files (but never `.git/`). oil shows hidden files
+too, except `.git`.
 
 ## LSP
 
