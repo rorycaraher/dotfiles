@@ -27,10 +27,23 @@ too, except `.git`.
 ## Plugins
 
 lazy.nvim, one spec per file in `lua/plugins/`; `lazy-lock.json` is committed.
-Currently: colorscheme (tokyonight), git-conflict, lualine, markdown
-(render-markdown), oil, snacks (scratch buffers), sops (transparent
-decrypt/re-encrypt, see [sops.md](sops.md)), telescope (with fzf-native),
-which-key.
+
+| Spec | Plugin | Purpose |
+|---|---|---|
+| `colorscheme` | [tokyonight](https://github.com/folke/tokyonight.nvim) | colour scheme |
+| `git-conflict` | [git-conflict.nvim](https://github.com/akinsho/git-conflict.nvim) | conflict highlighting and resolution |
+| `lualine` | [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | statusline |
+| `markdown` | [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | in-buffer markdown rendering |
+| `oil` | [oil.nvim](https://github.com/stevearc/oil.nvim) | file explorer as a buffer; takes over `nvim .` |
+| `snacks` | [snacks.nvim](https://github.com/folke/snacks.nvim) | scratch buffers |
+| `sops` | [sops.nvim](https://github.com/atmask/sops.nvim) | transparent decrypt/re-encrypt, see [sops.md](sops.md) |
+| `telescope` | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | fuzzy finder, with telescope-fzf-native and plenary |
+| `which-key` | [which-key.nvim](https://github.com/folke/which-key.nvim) | keymap hints |
+
+`nvim-web-devicons` is pulled in as a dependency of lualine, markdown and oil.
+
+Beyond plugins: native LSP (below), per-filetype options (`after/ftplugin/`),
+and `autoread` handling (`config/options.lua`).
 
 ## LSP
 
