@@ -15,11 +15,22 @@ then loads `lua/config/{options,keymaps,lsp,lazy}`.
 | `<leader>.` | n | toggle scratch buffer (per cwd + filetype, persisted) |
 | `<leader>S` | n | pick from existing scratch buffers |
 | `<D-c>` | v | copy to system clipboard |
+| `-` | n | oil: open parent directory |
+| `<leader>/` | n | which-key: buffer-local keymaps |
+| `<leader>ff` / `<leader>fF` | n | telescope: find files / incl. gitignored |
+| `<leader>fg` / `<leader>fG` | n | telescope: live grep / incl. gitignored |
+| `<leader>fb` / `<leader>fh` | n | telescope: buffers / help tags |
+
+Telescope searches hidden files (but never `.git/`). oil shows hidden files
+too, except `.git`.
 
 ## Plugins
 
 lazy.nvim, one spec per file in `lua/plugins/`; `lazy-lock.json` is committed.
-Currently: colorscheme, git-conflict, lualine, markdown, oil, snacks, telescope, which-key.
+Currently: colorscheme (tokyonight), git-conflict, lualine, markdown
+(render-markdown), oil, snacks (scratch buffers), sops (transparent
+decrypt/re-encrypt, see [sops.md](sops.md)), telescope (with fzf-native),
+which-key.
 
 ## LSP
 
@@ -34,7 +45,13 @@ toolchain: `rustup component add rust-analyzer rust-src`.
 
 ## Filetype options
 
-`after/ftplugin/<ft>.lua` (`go`, `markdown`).
+`after/ftplugin/<ft>.lua` (`go`, `markdown`). Defaults (`config/options.lua`):
+2-space indent, relative numbers, smartcase search, persistent undo. `go` uses
+tabs (width 4) and organizes imports plus formats on save; `markdown` wraps
+at word boundaries with `conceallevel=2`.
+
+AppleScript has no upstream support, so `ftdetect/` maps `*.applescript` and
+`syntax/applescript.vim` provides basic highlighting.
 
 ## Merge conflicts
 
