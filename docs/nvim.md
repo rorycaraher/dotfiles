@@ -9,6 +9,7 @@ lazy.nvim, one spec per file in `lua/plugins/`; `lazy-lock.json` is committed.
 
 | Spec | Plugin | Purpose |
 |---|---|---|
+| `blink` | [blink.cmp](https://github.com/saghen/blink.cmp) | completion as you type: LSP, paths, snippets, buffer words |
 | `colorscheme` | [tokyonight](https://github.com/folke/tokyonight.nvim) | colour scheme |
 | `git-conflict` | [git-conflict.nvim](https://github.com/akinsho/git-conflict.nvim) | conflict highlighting and resolution |
 | `lualine` | [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim) | statusline |
@@ -40,6 +41,9 @@ The leader key is `<Space>`.
 | `<D-c>` | v | copy to system clipboard |
 | `-` | n | oil: open parent directory |
 | `<leader>/` | n | which-key: buffer-local keymaps |
+| `<C-Space>` / `<C-e>` | i | blink: open / close completion menu |
+| `<C-n>` / `<C-p>` / `<C-y>` | i | blink: next / previous / accept |
+| `<Tab>` / `<S-Tab>` | i | blink: jump to next / previous snippet field |
 | `<leader>ff` / `<leader>fF` | n | telescope: find files / incl. gitignored |
 | `<leader>fg` / `<leader>fG` | n | telescope: live grep / incl. gitignored |
 | `<leader>fb` / `<leader>fh` | n | telescope: buffers / help tags |
@@ -52,12 +56,21 @@ too, except `.git`.
 Native `vim.lsp.enable()`, enabled in `config/lsp.lua`, config in
 `lsp/<server>.lua`: `terraformls`, `marksman`, `gopls`, `bashls`
 (sh, bash and zsh; `shellcheck` diagnostics don't cover zsh), `rust_analyzer`,
-`pyright` (types) and `ruff` (lint, format).
+`pyright` (types), `ruff` (lint, format), `html` and `cssls` (css, scss,
+less). `html` and `cssls` both come from `vscode-langservers-extracted`;
+`html` also covers CSS inside `<style>` and `style=""`.
+`emmet_language_server` (html, css, scss, less) offers emmet abbreviations
+(`ul>li*3`, `m10`) as completions; it comes from npm via mise
+(`mise/config.toml`), not the Brewfile.
 Servers come from the Brewfile, not Mason. To add one: brew it, add
 `lsp/<server>.lua`, add the name to `config/lsp.lua`.
 
 The exception is `rust_analyzer`, which comes from rustup so it matches the
 toolchain: `rustup component add rust-analyzer rust-src`.
+
+Colour values (hex, `rgb()`, `hsl()`, named) in CSS are highlighted in
+their own colour via the LSP `textDocument/documentColor` support built into
+Neovim 0.12, enabled by default; no plugin.
 
 ## Filetype options
 
