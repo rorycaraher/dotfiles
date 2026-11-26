@@ -48,7 +48,8 @@ and keeps one rolling `.bak`:
 ## Brewfile
 
 Add tools to `Brewfile` and run `./bootstrap.sh` (not bare `brew bundle`).
-Language runtimes and version-sensitive tools go in `mise` instead. `jq` is
+Language runtimes, version-sensitive tools and npm-distributed tools go in
+`mise` instead, so Node is never a Homebrew dependency. `jq` is
 not in the Brewfile; macOS ships it.
 
 ## Host-specific config

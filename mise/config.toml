@@ -5,10 +5,12 @@
 # default IaC tool; minor-pinned so a state-format bump is a deliberate edit
 opentofu = "1.12"
 python = "3.14.8"
-# runtime for npm-only tools below; not for JS projects, which pin their own
+# runs the npm language servers below; JS projects pin their own in mise.toml
 node = "24"
-# emmet for nvim; not in Homebrew
 "npm:@olrtg/emmet-language-server" = "latest"
+"npm:bash-language-server" = "latest"
+"npm:pyright" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
 
 [settings]
 # auto-install missing tools; mise trust still gates unknown configs

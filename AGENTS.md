@@ -72,13 +72,14 @@ Config goes in this repo, programs in that one.
 leader, then loads `lua/config/{options,keymaps,lsp,lazy}`. lazy.nvim loads
 one plugin spec per file in `lua/plugins/`; `lazy-lock.json` is committed.
 LSP uses native `vim.lsp.enable()` — one `lsp/<server>.lua` per server,
-enabled in `config/lsp.lua`. Language servers come from the `Brewfile`, not
-Mason. Per-filetype options go in `after/ftplugin/<ft>.lua`.
+enabled in `config/lsp.lua`. Language servers come from the `Brewfile`
+(npm-distributed ones from `mise/config.toml`), not Mason. Per-filetype options go in `after/ftplugin/<ft>.lua`.
 
 **Tool ownership boundaries:** `mise` = language runtimes + version-sensitive
 tools (pinned per-repo in `mise.toml`; global `mise/config.toml` stays thin).
-`direnv` = env vars. Homebrew = leaf CLI tools + all casks. `tf` (in
-`zsh/config/20-terraform.zsh`) runs `${TF_BINARY:-tofu}`; a host needing
+npm-distributed tools are `npm:` entries in global `mise/config.toml`, so
+Homebrew never pulls in Node. `direnv` = env vars. Homebrew = leaf CLI tools +
+all casks. `tf` (in `zsh/config/20-terraform.zsh`) runs `${TF_BINARY:-tofu}`; a host needing
 Terraform sets `TF_BINARY=terraform` in `zsh-private/`.
 
 **`claude/` and `templates/` are deployed payloads, not repo meta.**

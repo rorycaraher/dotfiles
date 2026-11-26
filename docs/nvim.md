@@ -57,16 +57,16 @@ Native `vim.lsp.enable()`, enabled in `config/lsp.lua`, config in
 `lsp/<server>.lua`: `terraformls`, `marksman`, `gopls`, `bashls`
 (sh, bash and zsh; `shellcheck` diagnostics don't cover zsh), `rust_analyzer`,
 `pyright` (types), `ruff` (lint, format), `html` and `cssls` (css, scss,
-less). `html` and `cssls` both come from `vscode-langservers-extracted`;
-`html` also covers CSS inside `<style>` and `style=""`.
-`emmet_language_server` (html, css, scss, less) offers emmet abbreviations
-(`ul>li*3`, `m10`) as completions; it comes from npm via mise
-(`mise/config.toml`), not the Brewfile.
-Servers come from the Brewfile, not Mason. To add one: brew it, add
+less) and `emmet_language_server` (html, css, scss, less: `ul>li*3`, `m10`
+as completions). `html` also covers CSS inside `<style>` and `style=""`.
+
+Servers come from the Brewfile, not Mason, except npm-distributed ones
+(`bashls`, `pyright`, `html`, `cssls`, `emmet_language_server`), which are
+`npm:` tools in `mise/config.toml` so Node comes from mise, not Homebrew.
+To add one: brew it (or add an `npm:` line to `mise/config.toml`), add
 `lsp/<server>.lua`, add the name to `config/lsp.lua`.
 
-The exception is `rust_analyzer`, which comes from rustup so it matches the
-toolchain: `rustup component add rust-analyzer rust-src`.
+`rust_analyzer` comes from rustup instead, so it matches the toolchain: `rustup component add rust-analyzer rust-src`.
 
 Colour values (hex, `rgb()`, `hsl()`, named) in CSS are highlighted in
 their own colour via the LSP `textDocument/documentColor` support built into
